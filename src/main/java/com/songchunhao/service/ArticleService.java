@@ -112,6 +112,7 @@ public interface ArticleService {
 	
 	PageInfo<Comment> getCommentByArticleId(Integer articleId,Integer page);
 
+	
 	/**
 	 * 增加文章点击次数
 	 * @param id 文章id
@@ -120,8 +121,9 @@ public interface ArticleService {
 	int addHits(Integer id);
 
 	
-	
 	PageInfo<Comment> getCommentlist(Integer userId, Integer page);
+
+	int addTag(String tag);
 	
 
 }

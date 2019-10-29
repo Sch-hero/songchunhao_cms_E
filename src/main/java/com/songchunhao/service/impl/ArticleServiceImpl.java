@@ -256,6 +256,18 @@ public class ArticleServiceImpl implements ArticleService {
 				PageHelper.startPage(page, 5);
 				return new PageInfo<Comment>(articleMapper.getCommentlist(userId));
 	}
+
+	
+	
+	/**
+	 * 
+	 */
+	@Override
+	public int addTag(String tag) {
+		// TODO Auto-generated method stub
+		Tag tagBean = new Tag(tag);
+		return articleMapper.addTag(tagBean);
+	}
 	
 
 }
