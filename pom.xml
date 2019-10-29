@@ -4,7 +4,7 @@
   <artifactId>songchunhao_cms_1706e</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
-  <description>这是一个优秀的cms系统，用于管理文章等</description>
+   <description>这是一个优秀的cms系统，用于管理文章等</description>
   
   <!-- 定义主要版本号 -->
 	<properties>
@@ -37,7 +37,7 @@
 	<dependencies>
 		<!--  引入自己的工具类 -->
 		<dependency>
-			<groupId>com.sch</groupId>
+		  <groupId>com.sch</groupId>
   			<artifactId>sch_cms_common</artifactId>
   			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
@@ -306,4 +306,5 @@
 
 		</plugins>
 	</build>
+	
 </project>

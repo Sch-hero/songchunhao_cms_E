@@ -2,25 +2,35 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sch.dao.ArticleMapper">
+<mapper namespace="com.songchunhao.dao.ArticleMapper">
+	
 	<resultMap type="article" id="articleMapper">
 		<id column="id" property="id" />
 		<result column="channel_id" property="channelId"/>
 		<result column="category_id" property="categoryId"/>
+		<!-- 枚举类型的使用 -->
+		<result column="articleType" property="articleType" 
+		   typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"
+		   jdbcType="INTEGER" javaType="com.songchunhao.comon.ArticleType"/>
+		<!-- 获取用户id -->
 		<result column="user_id" property="userId"/>
+		<!-- 获取用户 对象-->
 		<association property="user" column="user_id" 
-		   select="com.sch.dao.UserMapper.findUserById" />
+		   select="com.songchunhao.dao.UserMapper.findUserById" />
+		<!-- 获取频道对象    -->
 	    <association property="channel" column="channel_id" 
-		   select="com.sch.dao.ChannelMapper.findById" />
+		   select="com.songchunhao.dao.ChannelMapper.findById" />
+		<!-- 获取分类对象 -->
 		<association property="cat" column="category_id" 
-		   select="com.sch.dao.CatMapper.findById" />
-		<association property="tags" column="id"
-			select="findTagsByArticleId"
-		></association>
+		   select="com.songchunhao.dao.CatMapper.findById" />
+		<!-- 获取文章标签 -->
+		<association property="tags" column="id" 
+		   select="findTagsByArticleId" />   
 	</resultMap> 
 	
+	
 	<select id="findTagsByArticleId" resultType="java.lang.String">
-		SELECT GROUP_CONCAT(tagname) tags 
+		SELECT GROUP_CONCAT(tagname) tags
   			FROM cms_article_tag_middle m  JOIN cms_tag  t on m.tid=t.id 
   			WHERE m.aid= #{value}
 			GROUP BY m.aid
@@ -29,27 +39,31 @@
 	<!-- 根据文章的分类和频道获取文章 -->
 	<select id="list" resultMap="articleMapper">
 		SELECT id,title,picture,channel_id,category_id,user_id,
-		        hits,hot,status,created,updated,commentCnt
+		        hits,hot,status,created,updated,commentCnt,articleType
 		 FROM cms_article
 		 WHERE channel_id=#{chnId}
 		 <if test="catId!=0">
 		 	AND category_id=#{catId}
-		 </if>       
+		 </if>    
+		 AND status=1   AND deleted=0
 	</select>
+	
+	<!-- 获取热门文章 -->
 	<select id="listHot"  resultMap="articleMapper">
 		SELECT id,title,picture,channel_id,category_id,user_id,
-		        hits,hot,status,created,updated,commentCnt
+		        hits,hot,status,created,updated,commentCnt,articleType
 		 FROM cms_article
-		 	WHERE hot>0
+		 	WHERE hot>0 AND status=1 
 		 	AND deleted=0
 		 	ORDER BY hot DESC,created DESC
 	</select>
+	
 	<!-- 获取最新文章 -->
 	<select id="listLast"  resultMap="articleMapper">
 		SELECT id,title,picture,channel_id,category_id,user_id,
-		        hits,hot,status,created,updated,commentCnt
+		        hits,hot,status,created,updated,commentCnt,articleType
 		 FROM cms_article
-		 	WHERE deleted=0
+		 	WHERE deleted=0 AND status=1 
 		 	ORDER BY created DESC limit #{value}
 	</select>
 	
@@ -65,31 +79,39 @@
 		 	ORDER BY created DESC 
 	</select>
 	
-	
+	<!-- 获取一篇具体文章 -->
 	<select id="findById" resultMap="articleMapper">
 		SELECT id,title,picture,content,channel_id,category_id,user_id,
-		        hits,hot,status,created,updated,commentCnt
+		        hits,hot,status,created,updated,commentCnt,articleType
 		 FROM cms_article
 		 WHERE id=#{value}
 		 AND deleted=0
 	</select>
 	
-	<!-- 根据用户id查找文章 -->
+	<!-- 根据用户id查找文章   根据发表的时间倒叙排列-->
 	<select id="listByUserId" resultMap="articleMapper">
 		SELECT id,title,picture,user_id,channel_id,category_id,
 		        hits,hot,status,created,updated,commentCnt
 		 FROM cms_article
 		 WHERE user_id=#{value}
-		   AND deleted=0
+		   AND deleted=0 
+		 ORDER BY id desc  
 	</select>
 	
-	
+	<!-- 添加文章  EnumOrdinalTypeHandler 是对枚举的处理-->
 	<insert id="add"  useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-		INSERT INTO cms_article(title,content,picture,channel_id,category_id,user_id,hits,hot,status,deleted,created,updated,commentCnt)
-		  values(#{title},#{content},#{picture},#{channelId},#{categoryId},#{userId},0,0,0,0,now(),now(),0)
+		INSERT INTO cms_article(title,content,picture,channel_id,category_id,user_id,hits,hot,
+		                        status,deleted,created,updated,commentCnt,articleType)
+		  values(#{title},#{content},#{picture},#{channelId},#{categoryId},#{userId},0,
+		          0,0,0,now(),now(),0,
+		    #{articleType, typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler,
+		   jdbcType=INTEGER, javaType=com.songchunhao.comon.ArticleType})
+	</insert>
+	    
+	<insert id="addTag" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+		INSERT INTO cms_tag(tagname) values(#{tagname})
 	</insert>
 	
-	<insert id="addTag" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-		insert into cms_tag(tagname)values(#{tagname})
-	</insert>
 </mapper>
+  
+  
