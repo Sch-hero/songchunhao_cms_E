@@ -53,13 +53,13 @@
 						</ol>
 						<div class="carousel-inner">
 							<div class="carousel-item active">
-								<img class="d-block w-100" src="/pic/3f293225-1764-4cd0-ada1-0b55bba7b5c8.jpg" alt="First slide">
+								<img width="200" height="200" class="d-block w-100" src="/resource/pic/151052.jpg" alt="First slide">
 							</div>
 							<div class="carousel-item">
-								<img class="d-block w-100" src="/pic/2.jpg" alt="Second slide">
+								<img width="200" height="200" class="d-block w-100" src="/resource/pic/backiee-47802.jpg" alt="Second slide">
 							</div>
 							<div class="carousel-item">
-								<img class="d-block w-100" src="/pic/3.jpg" alt="Third slide">
+								<img width="200" height="200" class="d-block w-100" src="/resource/pic/backiee-58073.jpg" alt="Third slide">
 							</div>
 						</div>
 						<a class="carousel-control-prev" href="#carousel" role="button"
@@ -116,7 +116,7 @@
 					<div class="card-body">
 						<ol>
 							<c:forEach items="${lastList}" var="article">
-								<li class="text-truncate"><a href="/article/show?id=${article.id}">${article.title}</a></li>
+								<li class="text-truncate"><a href="javascript:myopen(${article.id })">${article.title}</a></li>
 							</c:forEach>
 						</ol>
 					</div>
@@ -124,12 +124,29 @@
 			   <div class="card">
 			   <div class="card-header">友情链接</div>
 			      <ol>
-			    <c:forEach items="${links}" var="l">
-			      <li class="text-truncate text-center"><a href="${l.url }" target="_blank">${l.text}</a></li>
-			    
+			    <c:forEach items="${linklist}" var="l">
+			      <li class="text-truncate text-center"><a href="${l.http }" target="_blank">${l.name}</a></li>
 			    </c:forEach>
 			     </ol>
 			   </div>
+			
+			
+			   <div class="card">专题文章</div>
+			   <c:forEach items="${specials}" var="special">
+					   	<div class="card">
+					   <div class="card-header">${special.title}</div>
+					      <ol>
+					    <c:forEach items="${special.artilceList}" var="article">
+					      <li class="text-truncate text-center">
+					      	<a href="javascript:myopen(${article.id })">${article.title}</a>
+					      </li>
+					    
+					    
+					    </c:forEach>
+					     </ol>
+					   </div>
+			   </c:forEach>
+			   
 			
 			</div>
 		</div>
@@ -140,6 +157,13 @@
 	<jsp:include page="/WEB-INF/view/common/footer.jsp" />
 
 	<script type="text/javascript">
+	
+	function myopen(id){
+		 //在新窗口打开文章的详情J
+		 window.open("/article/show?id="+id,"_blank")
+	 }
+	
+	
 		//为左侧频道绑定点击事件
 		$(function() {
 			$('ul li').click(function() {
@@ -190,3 +214,4 @@
 	<script type="text/javascript" src="/resource/js/cms.js"></script>
 </body>
 </html>
+

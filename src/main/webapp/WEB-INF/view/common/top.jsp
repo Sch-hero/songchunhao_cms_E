@@ -4,15 +4,14 @@
   <a class="navbar-brand" href="/" title="CMS"><img alt="CMS" src="/resource/images/logo.png"></a>
   
   <!-- 搜索框：在专业高级二学完ElasticSearch后实现 -->
-  <form class="form-inline">
+  <form class="form-inline" action="search">
     <div class="input-group">
-      <input type="text" name="key" class="form-control" placeholder="输入关键字..." aria-label="key" aria-describedby="basic-addon1">
+      <input type="text" name="title" class="form-control" placeholder="输入关键字..." aria-label="key" aria-describedby="basic-addon1">
       <div class="input-group-prepend">
         <button class="input-group-btn btn btn-outline-primary" id="basic-addon1">搜索</button>
       </div>
     </div>
   </form>
-  
   <!-- 右边登录注册 -->
   <ul class="nav">
    	<c:choose>
@@ -20,7 +19,7 @@
     <c:when test="${sessionScope.SESSION_USER_KEY != null}">
    	 <li class="nav-item">
    		<a class="nav-link" href="/my/home">
-		<img alt="" src="/resource/images/default_avatar.png" style="max-height: 2.5rem" class="rounded img-fluid">
+		<img alt="" src="/pic/${sessionScope.SESSION_USER_KEY.head_picture }" style="max-height: 2.5rem" class="rounded img-fluid">
    		</a>
    	 </li>
    	 <li class="nav-item">

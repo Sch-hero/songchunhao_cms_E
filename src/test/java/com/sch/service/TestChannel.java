@@ -1,16 +1,16 @@
 package com.sch.service;
+
+
 import java.util.List;
+
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.sch.entity.Cat;
-import com.sch.entity.Channel;
 
-/**
- * 
- * @宋春浩
- *
- * 2019年10月18日
- */
+import com.songchunhao.entity.Cat;
+import com.songchunhao.entity.Channel;
+import com.songchunhao.service.CatService;
+import com.songchunhao.service.ChannelService;
+
 public class TestChannel  extends BaseTest{
 	
 	@Autowired

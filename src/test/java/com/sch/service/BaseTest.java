@@ -8,7 +8,4 @@ import org.springframework.test.context.junit4.SpringRunner;
 @ContextConfiguration("classpath:spring-beans.xml")
 public class BaseTest {
 	
-	public void testVoid() {
-		
-	}
 }

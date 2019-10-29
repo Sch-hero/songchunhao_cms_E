@@ -7,9 +7,9 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 <!-- 别名配置 -->
  <typeAliases>
     <!-- todo -->
-   <package name="com.sch.entity"/>
+   <package name="com.songchunhao.entity"/>
    <!-- todo -->
-   <package name="com.sch.vo"/>
+   <package name="com.songchunhao.vo"/>
  </typeAliases>
  
  
